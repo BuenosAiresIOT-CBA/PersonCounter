@@ -1,8 +1,7 @@
 var express=require('express');
 var app = express();
+var http = require('http');
 var path = require('path');
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
 var personCounter = 0;
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -26,11 +25,17 @@ app.get('/count', function(req, res){
 
 });
 
+app.set('port', process.env.PORT || 3000);
+
+var server = http.createServer(app);
+server.listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
+
+var io = require('socket.io')(server);
+
 io.on('connection', function (socket) {
     //Envio el mensaje blink_delay con valor 255 cuando el usuario se conecta
     io.emit('arduino', personCounter);
 });
 
-http.listen(3000, function () {
-    console.log('listening on *:3000');
-});
