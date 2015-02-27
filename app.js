@@ -25,6 +25,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+var personCounter = 0;
+
+app.get('/', function (req, res) {
+    res.sendFile('index.html');
+});
+
+app.get('/count', function(req, res){
+    var field = req.param("field");
+    console.log(field);
+    
+    if (field==1){
+        personCounter++;
+    }else{
+        personCounter--;   
+    }
+    
+    io.emit('arduino', personCounter);
+    res.json({});
+
+});
+
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -61,26 +82,6 @@ module.exports = app;
 
 
 
-var personCounter = 0;
-
-app.get('/', function (req, res) {
-    res.sendFile('index.html');
-});
-
-app.get('/count', function(req, res){
-    var field = req.param("field");
-    console.log(field);
-    
-    if (field==1){
-        personCounter++;
-    }else{
-        personCounter--;   
-    }
-    
-    io.emit('arduino', personCounter);
-    res.json({});
-
-});
 
 app.set('port', process.env.PORT || 3000);
 
