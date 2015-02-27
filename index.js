@@ -1,20 +1,14 @@
-var app = require('express')();
+var express=require('express');
+var app = express();
+var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var personCounter = 0;
 
-var _dirname = "/Users/francoagustinrabaglia/Desktop/IoT/PersonCounter/node/"
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
     res.sendFile(_dirname + 'index.html');
-});
-
-app.get('/lib/jquery-1.11.1.min.js', function (req, res) {
-    res.sendFile(_dirname + '/lib/jquery-1.11.1.min.js');
-});
-
-app.get('/css/style.css', function (req, res) {
-    res.sendFile(_dirname + '/css/style.css');
 });
 
 app.get('/count', function(req, res){
