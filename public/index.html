@@ -21,7 +21,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="javascripts/jquery-1.11.1.min.js"></script>
     <script>
-        var socket = io('http://personcounter.herokuapp.com');
+        var socket = io();
         socket.on('arduino', function (msg) {
             $('#arduino').text(msg);
         });
