@@ -72,9 +72,9 @@ app.get('/count', function(req, res){
     console.log(field);
     
     if (field==1){
-    personCounter++;
+        personCounter++;
     }else{
-    personCounter--;   
+        personCounter--;   
     }
     
     io.emit('arduino', personCounter);
